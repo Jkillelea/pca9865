@@ -10,7 +10,6 @@ namespace {
                 dest[7-i] = '1';
             else
                 dest[7-i] = '0';
-
         }
     }
 }
@@ -36,11 +35,11 @@ void PCA9865::begin() {
     disableInvert(false);
     disableTotemPole(false);
 
-    syncConfig();
+    writeConfig();
 }
 
 // write configuration to the actual chip
-inline void PCA9865::syncConfig() {
+inline void PCA9865::writeConfig() {
     writeRegister(reg_addr::MODE1, reg_mode1);
     writeRegister(reg_addr::MODE2, reg_mode2);
 }
@@ -48,121 +47,302 @@ inline void PCA9865::syncConfig() {
 void PCA9865::setRestart(bool immediate) {
     reg_mode1 |= mode1::RESTART;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::disableRestart(bool immediate) {
     reg_mode1 &= ~mode1::RESTART;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::setExtclk(bool immediate) {
     reg_mode1 |= mode1::EXTCLK;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::disableExtclk(bool immediate) {
     reg_mode1 &= ~mode1::EXTCLK;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::setAi(bool immediate) {
     reg_mode1 |= mode1::AI;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::disableAi(bool immediate) {
     reg_mode1 &= ~mode1::AI;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::setSleep(bool immediate) {
     reg_mode1 |= mode1::SLEEP;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::disableSleep(bool immediate) {
     reg_mode1 &= ~mode1::SLEEP;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::setSub1(bool immediate) {
     reg_mode1 |= mode1::SUB1;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::disableSub1(bool immediate) {
     reg_mode1 &= ~mode1::SUB1;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::setSub2(bool immediate) {
     reg_mode1 |= mode1::SUB2;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::disableSub2(bool immediate) {
     reg_mode1 &= ~mode1::SUB2;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::setSub3(bool immediate) {
     reg_mode1 |= mode1::SUB3;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::disableSub3(bool immediate) {
     reg_mode1 &= ~mode1::SUB3;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::setAllCall(bool immediate) {
     reg_mode1 |= mode1::ALLCALL;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::disableAllCall(bool immediate) {
     reg_mode1 &= ~mode1::ALLCALL;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::setInvert(bool immediate) {
     reg_mode2 |= mode2::INVRT;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::disableInvert(bool immediate) {
     reg_mode2 &= ~mode2::INVRT;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::setTotemPole(bool immediate) {
     reg_mode2 |= mode2::OUTDRV;
     if (immediate)
-        syncConfig();
+        writeConfig();
 }
 
 void PCA9865::disableTotemPole(bool immediate) {
     reg_mode2 &= ~mode2::OUTDRV;
     if (immediate)
-        syncConfig();
+        writeConfig();
+}
+
+bool PCA9865::isRestart(bool fetch) {
+    if (fetch)
+        reg_mode1 = readRegister(reg_addr::MODE1);
+    return (reg_mode1 & mode1::RESTART) > 0;
+}
+
+bool PCA9865::isExtclk(bool fetch) {
+    if (fetch)
+        reg_mode1 = readRegister(reg_addr::MODE1);
+    return (reg_mode1 & mode1::EXTCLK) > 0;
+}
+
+bool PCA9865::isAi(bool fetch) {
+    if (fetch)
+        reg_mode1 = readRegister(reg_addr::MODE1);
+    return (reg_mode1 & mode1::AI) > 0;
+}
+
+bool PCA9865::isSleep(bool fetch) {
+    if (fetch)
+        reg_mode1 = readRegister(reg_addr::MODE1);
+    return (reg_mode1 & mode1::SLEEP) > 0;
+}
+
+bool PCA9865::isSub1(bool fetch) {
+    if (fetch)
+        reg_mode1 = readRegister(reg_addr::MODE1);
+    return (reg_mode1 & mode1::SUB1) > 0;
+}
+
+bool PCA9865::isSub2(bool fetch) {
+    if (fetch)
+        reg_mode1 = readRegister(reg_addr::MODE1);
+    return (reg_mode1 & mode1::SUB2) > 0;
+}
+
+bool PCA9865::isSub3(bool fetch) {
+    if (fetch)
+        reg_mode1 = readRegister(reg_addr::MODE1);
+    return (reg_mode1 & mode1::SUB3) > 0;
+}
+
+bool PCA9865::isAllCall(bool fetch) {
+    if (fetch)
+        reg_mode1 = readRegister(reg_addr::MODE1);
+    return (reg_mode1 & mode1::ALLCALL) > 0;
+}
+
+bool PCA9865::isInvert(bool fetch) {
+    if (fetch)
+        reg_mode2 = readRegister(reg_addr::MODE2);
+    return (reg_mode1 & mode2::INVRT) > 0;
+}
+
+bool PCA9865::isTotemPole(bool fetch) {
+    if (fetch)
+        reg_mode2 = readRegister(reg_addr::MODE2);
+    return (reg_mode1 & mode2::OUTDRV) > 0;
+}
+
+void PCA9865::analogWrite(uint8_t chan, uint8_t percent) {
+    uint16_t on_time = 1; // counter time before input is turned on
+    uint16_t off_time = (((float) percent*4094)/100.0) + 1;
+
+    uint8_t channel_on_l;
+    uint8_t channel_on_h;
+    uint8_t channel_off_l;
+    uint8_t channel_off_h;
+
+    switch (chan) { // match channel to apropriate registers
+        case 0:
+            channel_on_l  = reg_addr::LED0_ON_L;
+            channel_on_h  = reg_addr::LED0_ON_H;
+            channel_off_l = reg_addr::LED0_OFF_L;
+            channel_off_h = reg_addr::LED0_OFF_H;
+            break;
+        case 1:
+            channel_on_l  = reg_addr::LED1_ON_L;
+            channel_on_h  = reg_addr::LED1_ON_H;
+            channel_off_l = reg_addr::LED1_OFF_L;
+            channel_off_h = reg_addr::LED1_OFF_H;
+            break;
+        case 2:
+            channel_on_l  = reg_addr::LED2_ON_L;
+            channel_on_h  = reg_addr::LED2_ON_H;
+            channel_off_l = reg_addr::LED2_OFF_L;
+            channel_off_h = reg_addr::LED2_OFF_H;
+            break;
+        case 3:
+            channel_on_l  = reg_addr::LED3_ON_L;
+            channel_on_h  = reg_addr::LED3_ON_H;
+            channel_off_l = reg_addr::LED3_OFF_L;
+            channel_off_h = reg_addr::LED3_OFF_H;
+            break;
+        case 4:
+            channel_on_l  = reg_addr::LED4_ON_L;
+            channel_on_h  = reg_addr::LED4_ON_H;
+            channel_off_l = reg_addr::LED4_OFF_L;
+            channel_off_h = reg_addr::LED4_OFF_H;
+            break;
+        case 5:
+            channel_on_l  = reg_addr::LED5_ON_L;
+            channel_on_h  = reg_addr::LED5_ON_H;
+            channel_off_l = reg_addr::LED5_OFF_L;
+            channel_off_h = reg_addr::LED5_OFF_H;
+            break;
+        case 6:
+            channel_on_l  = reg_addr::LED6_ON_L;
+            channel_on_h  = reg_addr::LED6_ON_H;
+            channel_off_l = reg_addr::LED6_OFF_L;
+            channel_off_h = reg_addr::LED6_OFF_H;
+            break;
+        case 7:
+            channel_on_l  = reg_addr::LED7_ON_L;
+            channel_on_h  = reg_addr::LED7_ON_H;
+            channel_off_l = reg_addr::LED7_OFF_L;
+            channel_off_h = reg_addr::LED7_OFF_H;
+            break;
+        case 8:
+            channel_on_l  = reg_addr::LED8_ON_L;
+            channel_on_h  = reg_addr::LED8_ON_H;
+            channel_off_l = reg_addr::LED8_OFF_L;
+            channel_off_h = reg_addr::LED8_OFF_H;
+            break;
+        case 9:
+            channel_on_l  = reg_addr::LED9_ON_L;
+            channel_on_h  = reg_addr::LED9_ON_H;
+            channel_off_l = reg_addr::LED9_OFF_L;
+            channel_off_h = reg_addr::LED9_OFF_H;
+            break;
+        case 10:
+            channel_on_l  = reg_addr::LED10_ON_L;
+            channel_on_h  = reg_addr::LED10_ON_H;
+            channel_off_l = reg_addr::LED10_OFF_L;
+            channel_off_h = reg_addr::LED10_OFF_H;
+            break;
+        case 11:
+            channel_on_l  = reg_addr::LED11_ON_L;
+            channel_on_h  = reg_addr::LED11_ON_H;
+            channel_off_l = reg_addr::LED11_OFF_L;
+            channel_off_h = reg_addr::LED11_OFF_H;
+            break;
+        case 12:
+            channel_on_l  = reg_addr::LED12_ON_L;
+            channel_on_h  = reg_addr::LED12_ON_H;
+            channel_off_l = reg_addr::LED12_OFF_L;
+            channel_off_h = reg_addr::LED12_OFF_H;
+            break;
+        case 13:
+            channel_on_l  = reg_addr::LED13_ON_L;
+            channel_on_h  = reg_addr::LED13_ON_H;
+            channel_off_l = reg_addr::LED13_OFF_L;
+            channel_off_h = reg_addr::LED13_OFF_H;
+            break;
+        case 14:
+            channel_on_l  = reg_addr::LED14_ON_L;
+            channel_on_h  = reg_addr::LED14_ON_H;
+            channel_off_l = reg_addr::LED14_OFF_L;
+            channel_off_h = reg_addr::LED14_OFF_H;
+            break;
+        case 15:
+            channel_on_l  = reg_addr::LED15_ON_L;
+            channel_on_h  = reg_addr::LED15_ON_H;
+            channel_off_l = reg_addr::LED15_OFF_L;
+            channel_off_h = reg_addr::LED15_OFF_H;
+            break;
+        default:
+            channel_on_l  = reg_addr::LED0_ON_L;
+            channel_on_h  = reg_addr::LED0_ON_H;
+            channel_off_l = reg_addr::LED0_OFF_L;
+            channel_off_h = reg_addr::LED0_OFF_H;
+            break;
+    }
+    
+    // TODO: this works but might make more sense to have auto increment
+    writeRegister(channel_on_h,  (on_time >> 8)  & 0xFF);
+    writeRegister(channel_on_l,   on_time        & 0xFF);
+    writeRegister(channel_off_h, (off_time >> 8) & 0xFF);
+    writeRegister(channel_off_l,  off_time       & 0xFF);
 }
 
 // write a byte to a register
@@ -180,4 +360,21 @@ void PCA9865::writeRegister(uint8_t reg, uint8_t data) {
     Wire.write(reg);
     Wire.write(data);
     Wire.endTransmission();
+}
+
+uint8_t PCA9865::readRegister(uint8_t reg) {
+    char buf[9] = {0};
+
+    Wire.requestFrom(addr, 1);
+    while (!Wire.available());
+    uint8_t result = Wire.read();
+
+    sprint_bin(result, buf);
+    
+    Serial.print("Read ");
+    Serial.print(buf);
+    Serial.print(" from  0x");
+    Serial.println(reg, HEX);
+
+    return result;
 }
