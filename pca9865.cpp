@@ -44,7 +44,7 @@ inline void PCA9865::writeConfig() {
     writeRegister(reg_addr::MODE2, reg_mode2);
 }
 
-void PCA9865::setRestart(bool immediate) {
+void PCA9865::enableRestart(bool immediate) {
     reg_mode1 |= mode1::RESTART;
     if (immediate)
         writeConfig();
@@ -56,7 +56,7 @@ void PCA9865::disableRestart(bool immediate) {
         writeConfig();
 }
 
-void PCA9865::setExtclk(bool immediate) {
+void PCA9865::enableExtclk(bool immediate) {
     reg_mode1 |= mode1::EXTCLK;
     if (immediate)
         writeConfig();
@@ -68,7 +68,7 @@ void PCA9865::disableExtclk(bool immediate) {
         writeConfig();
 }
 
-void PCA9865::setAi(bool immediate) {
+void PCA9865::enableAi(bool immediate) {
     reg_mode1 |= mode1::AI;
     if (immediate)
         writeConfig();
@@ -80,7 +80,7 @@ void PCA9865::disableAi(bool immediate) {
         writeConfig();
 }
 
-void PCA9865::setSleep(bool immediate) {
+void PCA9865::enableSleep(bool immediate) {
     reg_mode1 |= mode1::SLEEP;
     if (immediate)
         writeConfig();
@@ -92,7 +92,7 @@ void PCA9865::disableSleep(bool immediate) {
         writeConfig();
 }
 
-void PCA9865::setSub1(bool immediate) {
+void PCA9865::enableSub1(bool immediate) {
     reg_mode1 |= mode1::SUB1;
     if (immediate)
         writeConfig();
@@ -104,7 +104,7 @@ void PCA9865::disableSub1(bool immediate) {
         writeConfig();
 }
 
-void PCA9865::setSub2(bool immediate) {
+void PCA9865::enableSub2(bool immediate) {
     reg_mode1 |= mode1::SUB2;
     if (immediate)
         writeConfig();
@@ -116,7 +116,7 @@ void PCA9865::disableSub2(bool immediate) {
         writeConfig();
 }
 
-void PCA9865::setSub3(bool immediate) {
+void PCA9865::enableSub3(bool immediate) {
     reg_mode1 |= mode1::SUB3;
     if (immediate)
         writeConfig();
@@ -128,7 +128,7 @@ void PCA9865::disableSub3(bool immediate) {
         writeConfig();
 }
 
-void PCA9865::setAllCall(bool immediate) {
+void PCA9865::enableAllCall(bool immediate) {
     reg_mode1 |= mode1::ALLCALL;
     if (immediate)
         writeConfig();
@@ -140,7 +140,7 @@ void PCA9865::disableAllCall(bool immediate) {
         writeConfig();
 }
 
-void PCA9865::setInvert(bool immediate) {
+void PCA9865::enableInvert(bool immediate) {
     reg_mode2 |= mode2::INVRT;
     if (immediate)
         writeConfig();
@@ -152,7 +152,7 @@ void PCA9865::disableInvert(bool immediate) {
         writeConfig();
 }
 
-void PCA9865::setTotemPole(bool immediate) {
+void PCA9865::enableTotemPole(bool immediate) {
     reg_mode2 |= mode2::OUTDRV;
     if (immediate)
         writeConfig();
@@ -348,11 +348,10 @@ void PCA9865::analogWrite(uint8_t chan, uint8_t percent) {
 // write a byte to a register
 void PCA9865::writeRegister(uint8_t reg, uint8_t data) {
     char buf[9] = {0};
-    sprint_bin(data, buf);
 
     Serial.print("Sending ");
+    sprint_bin(data, buf);
     Serial.print(buf);
-    // Serial.print(data, BIN);
     Serial.print(" to 0x");
     Serial.println(reg, HEX);
 
@@ -365,13 +364,12 @@ void PCA9865::writeRegister(uint8_t reg, uint8_t data) {
 uint8_t PCA9865::readRegister(uint8_t reg) {
     char buf[9] = {0};
 
-    Wire.requestFrom(addr, 1);
-    while (!Wire.available());
+    Wire.requestFrom(addr, (uint8_t) 1); // ISO C++ warns if an integer literal
+    while (!Wire.available());           // is converted implicitly to a uint8_t
     uint8_t result = Wire.read();
 
-    sprint_bin(result, buf);
-    
     Serial.print("Read ");
+    sprint_bin(result, buf);
     Serial.print(buf);
     Serial.print(" from  0x");
     Serial.println(reg, HEX);
