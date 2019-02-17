@@ -40,6 +40,10 @@ void PCA9865::begin() {
 
     // reg_mode2 = 0b00001100;
     writeConfig();
+
+    // zero out all the channels on start
+    for (uint8_t chan = 0; chan < 16; chan++)
+        analogWrite(chan, 0);
 }
 
 // write configuration to the actual chip
