@@ -37,11 +37,14 @@ class PCA9865 {
         // whether to respond to all call address
         void enableAllCall( bool immediate = true);
         void disableAllCall(bool immediate = true);
+
         // Invert the PWM signals (NOTE 0% becomes FULL-BLAST with this)
         void enableInvert( bool immediate = true);
         void disableInvert(bool immediate = true);
-        // We always want totem pole driving disabled. 
-        // It's meant for LEDs, not  power mosfets
+
+        // Looks like totem pole driving is needed, but
+        // figuring out exactly what the correct configuration is
+        // is still TODO
         void enableTotemPole( bool immediate = true);
         void disableTotemPole(bool immediate = true);
 
