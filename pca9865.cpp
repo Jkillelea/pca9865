@@ -1,4 +1,26 @@
-// PCA9865
+// PCA9865 - a library for the PCA9865 PWM expander and LED driver chip
+// Main source file
+
+/*
+ * Copyright 2019 Jacob Killelea <jkillelea@protonmail.ch>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
+ * this software and associated documentation files (the "Software"), to deal in the 
+ * Software without restriction, including without limitation the rights to use, copy, 
+ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
+ * and to permit persons to whom the Software is furnished to do so, subject to the 
+ * following conditions:
+ * The above copyright notice and this permission notice shall be included in all 
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 #include <pca9865.h>
 #include <pca9865_constants.h>
 
@@ -347,9 +369,16 @@ void PCA9865::analogWrite(uint8_t chan, uint8_t percent) {
     }
     
     // TODO: this works but might make more sense to have auto increment
-    writeRegister(channel_on_h,  (on_time >> 8)  & 0xFF);
+    // TODO: only bottom 4 bits of the high byte register control duty cylce
+    //       so ANDing with 0x0F instead of 0xFF, but need to verify this is
+    //       correct. The top 4 bits are apparently some kind of control
+
+    // writeRegister(channel_on_h,  (on_time >> 8)  & 0xFF);
+    writeRegister(channel_on_h,  (on_time >> 8)  & 0x0F);
     writeRegister(channel_on_l,   on_time        & 0xFF);
-    writeRegister(channel_off_h, (off_time >> 8) & 0xFF);
+
+    // writeRegister(channel_off_h, (off_time >> 8) & 0xFF);
+    writeRegister(channel_off_h, (off_time >> 8) & 0x0F);
     writeRegister(channel_off_l,  off_time       & 0xFF);
 }
 
