@@ -15,6 +15,10 @@ namespace mode2 {
     const uint8_t INVRT  = 1 << 4; // invert output logic
     const uint8_t OCH    = 1 << 3; // output change on I2C STOP vs slave ACK
     const uint8_t OUTDRV = 1 << 2; // totem pole vs open drain
+
+    /* related to the ~OE pin, but exact functionality is unclear */
+    const uint8_t OUTNEh = 1 << 1;
+    const uint8_t OUTNEl = 1 << 0;
 } // end namespace mode2
 
 // Register addresses
