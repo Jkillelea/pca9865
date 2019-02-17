@@ -67,6 +67,6 @@ class PCA9865 {
         uint8_t readRegister(uint8_t reg);
 
         uint8_t addr;      // I2C address
-        uint8_t reg_mode1; // state of the MODE1 register
-        uint8_t reg_mode2; // state of the MODE2 register
+        uint8_t reg_mode1 = 0b00000000; // state of the MODE1 register
+        uint8_t reg_mode2 = 0b00001011; // state of the MODE2 register
 };

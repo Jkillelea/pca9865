@@ -16,25 +16,29 @@ namespace {
 
 PCA9865::PCA9865(uint8_t address) {
     addr = address;
-    Wire.begin();
 }
 
 // Initialize config registers
 void PCA9865::begin() {
+    Wire.begin();
+
+    reg_mode1 = readRegister(reg_addr::MODE1);
+    reg_mode2 = readRegister(reg_addr::MODE2);
+
     // disable basically everything
     disableRestart(false);
     disableExtclk(false);
     disableSleep(false);
     disableAi(false);
-    disableSleep(false);
     disableSub1(false);
     disableSub2(false);
     disableSub3(false);
     disableAllCall(false);
 
     disableInvert(false);
-    disableTotemPole(false);
+    enableTotemPole(false);
 
+    // reg_mode2 = 0b00001100;
     writeConfig();
 }
 
@@ -349,12 +353,12 @@ void PCA9865::analogWrite(uint8_t chan, uint8_t percent) {
 void PCA9865::writeRegister(uint8_t reg, uint8_t data) {
     char buf[9] = {0};
 
-    Serial.print("Sending ");
-    sprint_bin(data, buf);
-    Serial.print(buf);
-    Serial.print(" to 0x");
-    Serial.println(reg, HEX);
-
+    // Serial.print("Sending ");
+    // sprint_bin(data, buf);
+    // Serial.print(buf);
+    // Serial.print(" to 0x");
+    // Serial.println(reg, HEX);
+    
     Wire.beginTransmission(addr);
     Wire.write(reg);
     Wire.write(data);
@@ -368,11 +372,11 @@ uint8_t PCA9865::readRegister(uint8_t reg) {
     while (!Wire.available());           // is converted implicitly to a uint8_t
     uint8_t result = Wire.read();
 
-    Serial.print("Read ");
-    sprint_bin(result, buf);
-    Serial.print(buf);
-    Serial.print(" from  0x");
-    Serial.println(reg, HEX);
+    // Serial.print("Read ");
+    // sprint_bin(result, buf);
+    // Serial.print(buf);
+    // Serial.print(" from  0x");
+    // Serial.println(reg, HEX);
 
     return result;
 }
