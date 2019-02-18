@@ -46,6 +46,7 @@ void serialEvent() {
         pca.analogWrite(CHAN, value);
 
         while (Serial.available())   // a new line can get interpreted as a zero
-            char _c = Serial.read(); // so we need to read in the rest of the buffer
+            Serial.read();           // so we need to read in the rest of the buffer
     }                                // to prevent another call to serialEvent
 }
+
