@@ -388,6 +388,7 @@ void PCA9865::i2c_bus_init() {
 #ifdef ARDUINO
         Wire.begin();
 #else // Raspberry Pi
+        _fd = open("/dev/i2c-1", O_RDWR);
         // TODO: linux i2c init functionality
 #endif
     }
@@ -410,9 +411,9 @@ uint8_t PCA9865::readRegister(uint8_t reg) {
     while (!Wire.available());           // is converted implicitly to a uint8_t
     uint8_t result = Wire.read();
 #else // Raspberry Pi
-    uint8_t buf = reg; // TODO: check this
-    write(_fd, &buf, 1);
-    read(_fd, &buf, 1);
+    uint8_t result = reg; // TODO: check this
+    write(_fd, &result, 1);
+    read(_fd, &result, 1);
 #endif
 
     return result;
