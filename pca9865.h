@@ -23,10 +23,19 @@
 
 #pragma once
 
+#include <stdint.h>
+
+// Arduno Uno
+#ifdef ARDUINO
 #include <Arduino.h>
 #include <Wire.h>
+#endif
 
-#include <stdint.h>
+// Raspberry Pi
+#ifdef __linux__
+#include <unistd.h>
+#endif
+
 
 class PCA9865 {
     public:
@@ -89,10 +98,16 @@ class PCA9865 {
         bool isTotemPole(bool fetch = true);
 
     private:
+        void i2c_bus_init();
         void writeRegister(uint8_t reg, uint8_t data);
         uint8_t readRegister(uint8_t reg);
 
         uint8_t addr;      // I2C address
         uint8_t reg_mode1 = 0b00000000; // state of the MODE1 register
         uint8_t reg_mode2 = 0b00001011; // state of the MODE2 register
+
+// Raspberry Pi
+#ifdef __linux__
+        int _fd; // operating system file descriptor
+#endif
 };

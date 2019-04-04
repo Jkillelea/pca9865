@@ -34,7 +34,9 @@ namespace {
                 dest[7-i] = '0';
         }
     }
+
 }
+
 
 PCA9865::PCA9865(uint8_t address) {
     addr = address;
@@ -42,7 +44,7 @@ PCA9865::PCA9865(uint8_t address) {
 
 // Initialize config registers
 void PCA9865::begin() {
-    Wire.begin();
+    i2c_bus_init();
 
     reg_mode1 = readRegister(reg_addr::MODE1);
     reg_mode2 = readRegister(reg_addr::MODE2);
@@ -382,34 +384,36 @@ void PCA9865::analogWrite(uint8_t chan, uint8_t percent) {
     writeRegister(channel_off_l,  off_time       & 0xFF);
 }
 
+void PCA9865::i2c_bus_init() {
+#ifdef ARDUINO
+        Wire.begin();
+#else // Raspberry Pi
+        // TODO: linux i2c init functionality
+#endif
+    }
 // write a byte to a register
 void PCA9865::writeRegister(uint8_t reg, uint8_t data) {
-    char buf[9] = {0};
-
-    // Serial.print("Sending ");
-    // sprint_bin(data, buf);
-    // Serial.print(buf);
-    // Serial.print(" to 0x");
-    // Serial.println(reg, HEX);
-    
+#ifdef ARDUINO
     Wire.beginTransmission(addr);
     Wire.write(reg);
     Wire.write(data);
     Wire.endTransmission();
+#else // Raspberry Pi
+    uint8_t buf[] = {reg, data};
+    write(_fd, buf, 2);
+#endif
 }
 
 uint8_t PCA9865::readRegister(uint8_t reg) {
-    char buf[9] = {0};
-
+#ifdef ARDUINO
     Wire.requestFrom(addr, (uint8_t) 1); // ISO C++ warns if an integer literal
     while (!Wire.available());           // is converted implicitly to a uint8_t
     uint8_t result = Wire.read();
-
-    // Serial.print("Read ");
-    // sprint_bin(result, buf);
-    // Serial.print(buf);
-    // Serial.print(" from  0x");
-    // Serial.println(reg, HEX);
+#else // Raspberry Pi
+    uint8_t buf = reg; // TODO: check this
+    write(_fd, &buf, 1);
+    read(_fd, &buf, 1);
+#endif
 
     return result;
 }
