@@ -23,6 +23,7 @@
 
 #include "pca9865.h"
 
+const uint8_t OE   = A3; // Active low
 const uint8_t ADDR = 0x5D;
 const uint8_t CHAN = 11;
 
@@ -30,10 +31,12 @@ PCA9865 pca(ADDR);
 
 void setup() {
     Serial.begin(9600);
-    while (!Serial);
+    pinMode(OE, OUTPUT);
+    digitalWrite(OE, LOW);
     delay(500);
 
     pca.begin();
+    while (!Serial);
 }
 
 void loop() {
