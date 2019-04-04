@@ -389,6 +389,7 @@ void PCA9865::i2c_bus_init() {
         Wire.begin();
 #else // Raspberry Pi
         _fd = open("/dev/i2c-1", O_RDWR);
+        ioctl(_fd, I2C_SLAVE, addr);
         // TODO: linux i2c init functionality
 #endif
     }

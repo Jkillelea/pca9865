@@ -33,9 +33,11 @@
 
 // Raspberry Pi
 #ifdef __linux__
+#include <linux/i2c-dev.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/ioctl.h>
 #include <fcntl.h>
 #endif
 
