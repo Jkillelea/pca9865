@@ -3,8 +3,10 @@ CFLAGS   = -I../..
 LFLAGS   = -lwiringPi
 LIB_OBJS = ../../pca9865.o ../../i2cdevice.o
 
+TARGETS = duty_cycle_sweep zero_all set_channel
+
 .PHONY: all
-all: duty_cycle_sweep zero_all set_channel
+all: $(TARGETS)
 
 duty_cycle_sweep: duty_cycle_sweep.o $(LIB_OBJS)
 	$(CXX) -o $@ $^ $(LFLAGS)
@@ -23,6 +25,6 @@ $(LIB_OBJS):
 
 clean:
 	rm -f *.o
-	rm -f duty_cycle_sweep zero_all set_channel
+	rm -f $(TARGETS)
 	make -C ../.. clean
 
