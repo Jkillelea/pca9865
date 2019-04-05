@@ -7,13 +7,13 @@ LIB_OBJS = ../../pca9865.o ../../i2cdevice.o
 all: duty_cycle_sweep zero_all set_channel
 
 duty_cycle_sweep: duty_cycle_sweep.o $(LIB_OBJS)
-	$(CXX) -o $@ $^ $(LIB_OBJS) $(LFLAGS)
+	$(CXX) -o $@ $^ $(LFLAGS)
 
 zero_all: zero_all.o $(LIB_OBJS)
-	$(CXX) -o $@ $^ $(LIB_OBJS) $(LFLAGS)
+	$(CXX) -o $@ $^ $(LFLAGS)
 
 set_channel: set_channel.o $(LIB_OBJS)
-	$(CXX) -o $@ $^ $(LIB_OBJS) $(LFLAGS)
+	$(CXX) -o $@ $^ $(LFLAGS)
 
 %.o: %.cpp
 	$(CXX) $(CFLAGS) -c $^ -o $@
