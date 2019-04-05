@@ -13,7 +13,7 @@ $(LIB_OBJS):
 	make -C ../..
 
 %: %.o
-	$(CXX) -o $@ $^ $(lflags)
+	$(CXX) -o $@ $^ $(LFLAGS)
 
 %.o: %.cpp
 	$(CXX) $(CFLAGS) -c $^
