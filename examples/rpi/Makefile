@@ -6,7 +6,6 @@ LFLAGS = -lwiringPi
 
 LIB_OBJS = ../../pca9865.o ../../i2cdevice.o
 
-.PHONY: all
 all: duty_cycle_sweep zero_all set_channel
 
 $(LIB_OBJS):
@@ -18,7 +17,6 @@ $(LIB_OBJS):
 %.o: %.cpp
 	$(CXX) $(CFLAGS) -c $^
 
-.PHONY: clean
 clean:
 	rm -f *.o
 	rm -f duty_cycle_sweep zero_all
