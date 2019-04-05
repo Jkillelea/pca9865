@@ -1,9 +1,18 @@
 #include <i2cdevice.h>
 
+#include <stdio.h>
+#include <stdlib.h>
+
 I2CDevice::I2CDevice(uint8_t addr, const char *bus) {
     _fd = open(bus, O_RDWR);
-    ioctl(_fd, I2C_SLAVE, addr);
-    // TODO: error checking
+    if (_fd < 0) {
+        perror("open");
+        abort();
+    }
+    if (ioctl(_fd, I2C_SLAVE, addr)) {
+        perror("ioctl");
+        abort();
+    }
 }
 
 I2CDevice::~I2CDevice() {
