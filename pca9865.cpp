@@ -386,11 +386,9 @@ void PCA9865::analogWrite(uint8_t chan, uint8_t percent) {
 
 void PCA9865::i2c_bus_init() {
 #ifdef ARDUINO
-        Wire.begin();
+    Wire.begin();
 #else // Raspberry Pi
-        _fd = open("/dev/i2c-1", O_RDWR);
-        ioctl(_fd, I2C_SLAVE, addr);
-        // TODO: error checking
+    i2c = std::unique_ptr<I2CDevice>(new I2CDevice(addr, "/dev/i2c-1"));
 #endif
     }
 // write a byte to a register
@@ -402,7 +400,7 @@ void PCA9865::writeRegister(uint8_t reg, uint8_t data) {
     Wire.endTransmission();
 #else // Raspberry Pi
     uint8_t buf[] = {reg, data};
-    write(_fd, buf, 2);
+    i2c->write(buf, 2);
 #endif
 }
 
@@ -413,8 +411,8 @@ uint8_t PCA9865::readRegister(uint8_t reg) {
     uint8_t result = Wire.read();
 #else // Raspberry Pi
     uint8_t result = reg; // TODO: check this
-    write(_fd, &result, 1);
-    read(_fd, &result, 1);
+    i2c->write(&result, 1);
+    i2c->read(&result, 1);
 #endif
 
     return result;

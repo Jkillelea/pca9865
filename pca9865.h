@@ -33,12 +33,8 @@
 
 // Raspberry Pi
 #ifdef __linux__
-#include <linux/i2c-dev.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/ioctl.h>
-#include <fcntl.h>
+#include <i2cdevice.h>
+#include <memory> // std::unique_ptr
 #endif
 
 
@@ -113,6 +109,6 @@ class PCA9865 {
 
 // Raspberry Pi
 #ifdef __linux__
-        int _fd; // operating system file descriptor
+        std::unique_ptr<I2CDevice> i2c; // I2C backend
 #endif
 };
