@@ -1,4 +1,4 @@
-#include <cstdio>
+#include <stdint.h>
 #include <linux/i2c-dev.h>
 #include <unistd.h>
 #include <sys/types.h>

@@ -6,14 +6,14 @@ I2CDevice::I2CDevice(uint8_t addr, const char *bus) {
     // TODO: error checking
 }
 
-~I2CDevice::I2CDevice() {
+I2CDevice::~I2CDevice() {
     close(_fd);
 }
 
 ssize_t I2CDevice::write(const uint8_t *buf, size_t count) {
-    return write(_fd, buf, count);
+    return ::write(_fd, buf, count);
 }
 
 ssize_t I2CDevice::read(uint8_t *buf, size_t count) {
-    return read(_fd, &result, count);
+    return ::read(_fd, &buf, count);
 }
