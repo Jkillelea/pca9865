@@ -29,7 +29,7 @@
 const uint8_t OE   = 26; // GPIO 12, header pin 32, active low
 const uint8_t ADDR = 0x55;
 
-int is_between(int val, int hi, int lo) {
+bool is_between(int val, int lo, int hi) {
     return (lo <= val) && (val <= hi);
 }
 
