@@ -23,6 +23,6 @@ $(LIB_OBJS):
 
 clean:
 	rm -f *.o
-	rm -f duty_cycle_sweep zero_all
+	rm -f duty_cycle_sweep zero_all set_channel
 	make -C ../.. clean
 
