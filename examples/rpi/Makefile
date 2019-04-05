@@ -4,7 +4,7 @@ CXX = g++
 CFLAGS = -I../..
 LFLAGS = -lwiringPi
 
-LIB_OBJS = pca9865.o i2cdevice.o
+LIB_OBJS = ../../pca9865.o ../../i2cdevice.o
 
 .PHONY: all
 all: duty_cycle_sweep zero_all
