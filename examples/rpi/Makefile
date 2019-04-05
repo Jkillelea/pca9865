@@ -1,9 +1,9 @@
 # g++ duty_cycle_sweep.cpp ../../*.cpp  -I../.. -lwiringPi
 
-CXX      := g++
-CFLAGS   := -I../..
-LFLAGS   := -lwiringPi
-LIB_OBJS := ../../pca9865.o ../../i2cdevice.o
+CXX      = g++
+CFLAGS   = -I../..
+LFLAGS   = -lwiringPi
+LIB_OBJS = ../../pca9865.o ../../i2cdevice.o
 
 all: duty_cycle_sweep zero_all set_channel
 
@@ -14,7 +14,7 @@ $(LIB_OBJS):
 	$(CXX) -o $@ $^ $(LFLAGS)
 
 %.o: %.cpp
-	$(CXX) $(CFLAGS) -c $^
+	$(CXX) $(CFLAGS) -c $^ -o $@
 
 clean:
 	rm -f *.o
