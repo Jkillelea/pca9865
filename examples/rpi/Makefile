@@ -12,8 +12,11 @@ all: duty_cycle_sweep zero_all $(LIB_OBJS)
 $(LIB_OBJS):
 	make -C ../..
 
-%: %.o
-	$(CXX) -o $@ $^ $(LFLAGS)
+duty_cycle_sweep: duty_cycle_sweep.o
+	$(cxx) -o $@ $^ $(lflags)
+
+zero_all: zero_all.o
+	$(cxx) -o $@ $^ $(lflags)
 
 %.o: %.cpp
 	$(CXX) $(CFLAGS) -c $^
