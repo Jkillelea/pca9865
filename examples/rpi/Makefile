@@ -1,10 +1,9 @@
 # g++ duty_cycle_sweep.cpp ../../*.cpp  -I../.. -lwiringPi
 
-CXX = g++
-CFLAGS = -I../..
-LFLAGS = -lwiringPi
-
-LIB_OBJS = ../../pca9865.o ../../i2cdevice.o
+CXX      := g++
+CFLAGS   := -I../..
+LFLAGS   := -lwiringPi
+LIB_OBJS := ../../pca9865.o ../../i2cdevice.o
 
 all: duty_cycle_sweep zero_all set_channel
 
