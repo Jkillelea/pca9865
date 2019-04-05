@@ -31,6 +31,7 @@ const uint8_t CHAN = 0;
 PCA9865 pca(ADDR);
 
 int main(int argc, char *argv[]) {
+    wiringPiSetup();
     pinMode(OE, OUTPUT);
     digitalWrite(OE, LOW);
 
