@@ -26,4 +26,3 @@ clean:
 	rm -f duty_cycle_sweep zero_all
 	make -C ../.. clean
 
-
