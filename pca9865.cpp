@@ -65,9 +65,14 @@ void PCA9865::begin() {
     // reg_mode2 = 0b00001100;
     writeConfig();
 
+#ifdef ARDUINO
     // zero out all the channels on start
+    // this behavior works on arduino because begin() will be called once during setup()
+    // but on Linux it doesn't make sense because I'm compiling this down to command line
+    // utilities that I call repeatedly
     for (uint8_t chan = 0; chan < 16; chan++)
         analogWrite(chan, 0);
+#endif // ARDUINO
 }
 
 // write configuration to the actual chip
